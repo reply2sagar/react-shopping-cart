@@ -1,3 +1,9 @@
+# http -> https redirection
+
+cd /Users/admin/Projects/cloud-and-coding/js-nodejs/backend-api-rest-server
+&& npm start
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

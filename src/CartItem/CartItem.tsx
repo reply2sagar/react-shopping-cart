@@ -7,7 +7,7 @@ import { Wrapper } from './CartItem.styles';
 type Props = {
   item: CartItemType;
   addToCart: (clickedItem: CartItemType) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (_id: string) => void;
 };
 
 const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
@@ -23,7 +23,7 @@ const CartItem: React.FC<Props> = ({ item, addToCart, removeFromCart }) => (
           size='small'
           disableElevation
           variant='contained'
-          onClick={() => removeFromCart(item.id)}
+          onClick={() => removeFromCart(item._id)}
         >
           -
         </Button>

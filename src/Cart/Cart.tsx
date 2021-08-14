@@ -5,7 +5,7 @@ import { CartItemType } from '../App';
 type Props = {
   cartItems: CartItemType[];
   addToCart: (clickedItem: CartItemType) => void;
-  removeFromCart: (id: number) => void;
+  removeFromCart: (id: string) => void;
 };
 
 const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
@@ -18,7 +18,7 @@ const Cart: React.FC<Props> = ({ cartItems, addToCart, removeFromCart }) => {
       {cartItems.length === 0 ? <p>No items in cart.</p> : null}
       {cartItems.map(item => (
         <CartItem
-          key={item.id}
+          key={item._id}
           item={item}
           addToCart={addToCart}
           removeFromCart={removeFromCart}

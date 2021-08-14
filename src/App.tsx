@@ -1,18 +1,22 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
+
 // Components
 import Item from './Item/Item';
 import Cart from './Cart/Cart';
+
 import Drawer from '@material-ui/core/Drawer';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Grid from '@material-ui/core/Grid';
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
 import Badge from '@material-ui/core/Badge';
+
 // Styles
 import { Wrapper, StyledButton } from './App.styles';
+
 // Types
 export type CartItemType = {
-  id: number;
+  _id: string;
   category: string;
   description: string;
   image: string;
@@ -22,7 +26,8 @@ export type CartItemType = {
 };
 
 const getProducts = async (): Promise<CartItemType[]> =>
-  await (await fetch('https://fakestoreapi.com/products')).json();
+  await (await fetch('http://localhost:3001/products')).json();
+  //await (await fetch('https://fakestoreapi.com/products')).json();
 
 const App = () => {
   const [cartOpen, setCartOpen] = useState(false);
@@ -39,11 +44,11 @@ const App = () => {
   const handleAddToCart = (clickedItem: CartItemType) => {
     setCartItems(prev => {
       // 1. Is the item already added in the cart?
-      const isItemInCart = prev.find(item => item.id === clickedItem.id);
-
+      const isItemInCart = prev.find(item => item._id === clickedItem._id);
+      console.log("hello" + clickedItem._id)
       if (isItemInCart) {
         return prev.map(item =>
-          item.id === clickedItem.id
+          item._id === clickedItem._id
             ? { ...item, amount: item.amount + 1 }
             : item
         );
@@ -53,10 +58,18 @@ const App = () => {
     });
   };
 
-  const handleRemoveFromCart = (id: number) => {
+  const handleRemoveFromCart = (id: string) => {
+      /*
+setCartItems should return a object that has to be merged with existing 
+      state
+      */
+      
+      console.log("cartItems state ->  ", cartItems)
+
     setCartItems(prev =>
       prev.reduce((ack, item) => {
-        if (item.id === id) {
+          console.log("Call ->  ", ack)
+        if (item._id === id) {
           if (item.amount === 1) return ack;
           return [...ack, { ...item, amount: item.amount - 1 }];
         } else {
@@ -85,7 +98,7 @@ const App = () => {
       </StyledButton>
       <Grid container spacing={3}>
         {data?.map(item => (
-          <Grid item key={item.id} xs={12} sm={4}>
+          <Grid item key={item._id} xs={12} sm={4}>
             <Item item={item} handleAddToCart={handleAddToCart} />
           </Grid>
         ))}
